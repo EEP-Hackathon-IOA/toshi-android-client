@@ -42,7 +42,7 @@ import rx.schedulers.Schedulers;
 public class SofaMessageRegistration {
 
     private static final String ONBOARDING_BOT_NAME = "ToshiBot";
-    public static final String ONBOARDING_BOT_ID = "0xdc1eb58ae581c2e70dd5af5c454851fa2b24acd7";
+    public static final String ONBOARDING_BOT_ID = "0x1cdda5e6c54adfe857aad6f244d4a452b66cc798";
     private static final String CHAT_SERVICE_SENT_TOKEN_TO_SERVER = "chatServiceSentTokenToServer";
 
     private final SharedPreferences sharedPreferences;
