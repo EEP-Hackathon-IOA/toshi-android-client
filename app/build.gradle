@@ -22,10 +22,17 @@ apply plugin: 'realm-android'
 apply plugin: 'witness'
 
 android {
+    signingConfigs {
+        developer {
+            keyAlias 'myKey'
+            keyPassword 'password'
+            storeFile file('/Users/sgerogia/src/github.com/sgerogia/toshi-android-client/keystore.jks')
+            storePassword 'password'
+        }
+    }
     compileSdkVersion 26
     buildToolsVersion '26.0.1'
     dataBinding.enabled = true
-
     defaultConfig {
         applicationId "org.toshi"
         minSdkVersion 16
@@ -37,21 +44,22 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
             multiDexEnabled true
             debuggable true
             minifyEnabled false
+            signingConfig signingConfigs.developer
         }
         developer {
             applicationIdSuffix ".developer"
             multiDexEnabled true
-            minifyEnabled true
+            minifyEnabled false
             shrinkResources true
-            debuggable false
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.developer
         }
         release {
             multiDexEnabled true
@@ -61,12 +69,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     splits {
         abi {
             enable true
@@ -75,7 +81,6 @@ android {
             universalApk true
         }
     }
-
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/NOTICE'
@@ -83,7 +88,6 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-
     // Give each APK in the API split a different versionCode and versionName
     project.ext.versionCodes = ['armeabi-v7a': 2, 'arm64-v8a': 3, 'x86': 4]
     android.applicationVariants.all { variant ->
@@ -92,7 +96,6 @@ android {
                     project.ext.versionCodes.get(output.getFilter(com.android.build.OutputFile.ABI), 0) * 10000000 + android.defaultConfig.versionCode
         }
     }
-
     testOptions {
         unitTests.returnDefaultValues = true
     }
@@ -140,7 +143,6 @@ dependencies {
             'com.github.toshiapp:ahbottomnavigation:v2.0.7',
             'com.vdurmont:emoji-java:3.3.0',
     )
-
     compile('com.crashlytics.sdk.android:crashlytics:2.6.2@aar') {
         transitive = true;
     }
